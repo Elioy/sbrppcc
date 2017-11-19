@@ -21,7 +21,14 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, YamlException{
         App a1 = new App("application.yml");
         a1.parseYAML();
-        a1.ajouterTransitionsAuxEtats();
-        //System.out.println(a1);
+        Service s1 = a1.getServiceParNom("service 1");
+        Service s2 = a1.getServiceParNom("service 2");
+        Service s3 = a1.getServiceParNom("service 3");
+        for(int i = 0; i<10; i++){
+        s1.franchirTransitions();
+        s2.franchirTransitions();
+        s3.franchirTransitions();
+        }
+        System.out.println(a1);
     }
 }

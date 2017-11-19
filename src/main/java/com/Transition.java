@@ -103,26 +103,11 @@ public class Transition {
             }
         }
         for (Etat e : this.dependances) {
-            if (e.getNbJetons() < 1) {
+            if (!e.isValide()) {
                 return false;
             }
         }
         return true;
-    }
-
-    /**
-     * methode permettant de franchir la transition
-     */
-    public void franchirTransition() {
-        //TODO permettre le franchissement de plusieurs etats simultanement, rajouter temps d'execution
-        if (this.estFranchissable()) {
-            for (Etat e : etatsEntrants) {
-                e.setNbJetons(e.getNbJetons() - 1);
-            }
-            for(Etat e : etatsSortants){
-                e.setNbJetons(e.getNbJetons() + 1);
-            }
-        }
     }
 
     //getters & setters

@@ -5,10 +5,10 @@ application :
             etats :
                 - etat : &s1e1
                     nom : e1
-                    nbJetons : 0
+                    nbJetons : 1
                 - etat : &s1e2
                     nom : e2
-                    nbJetons : 1
+                    nbJetons : 0
                 - etat : &s1e3
                     nom : e3
                     nbJetons : 0

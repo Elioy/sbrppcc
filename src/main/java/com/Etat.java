@@ -23,7 +23,7 @@ public class Etat {
      */
     private int nbJetons;
     
-    private boolean estValide;
+    private boolean valide;
     
     /**
      * les transitions de l'etat
@@ -40,10 +40,10 @@ public class Etat {
         this.nbJetons = nbJetons;
         this.transitions = new ArrayList<Transition>();
         if(this.nbJetons > 0){
-            this.estValide = true;
+            this.valide = true;
         }
         else{
-            this.estValide = false;
+            this.valide = false;
         }
     }
 
@@ -85,18 +85,21 @@ public class Etat {
 
     public void setNbJetons(int nbJetons) {
         this.nbJetons = nbJetons;
+        if(this.nbJetons > 0){
+            this.valide = true;
+        }
     }
 
     public void setTransitions(List<Transition> transitions) {
         this.transitions = transitions;
     }
 
-    public boolean isEstValide() {
-        return estValide;
+    public boolean isValide() {
+        return valide;
     }
 
-    public void setEstValide(boolean estValide) {
-        this.estValide = estValide;
+    public void setValide(boolean b) {
+        this.valide = b;
     }
     
     

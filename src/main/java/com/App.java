@@ -28,6 +28,9 @@ public class App {
     public App(String file) throws FileNotFoundException {
         this.services = new ArrayList<Service>();
         this.parser = new YamlReader(new FileReader(file));
+        for(Service s : this.services){
+            s.ajouterTransitionsAuxEtats();
+        }
     }
 
     /**
@@ -39,33 +42,33 @@ public class App {
         Map m1 = (Map) ((Map) o1).get("application");
         List l1 = (List) m1.get("services"); //liste des services
         for (Object o2 : l1) {
-            Map m2 = (Map) ((Map) o2).get("service");
-            Service s = new Service((String) m2.get("nom"));
-            List l2 = (List) m2.get("etats"); //liste des états d'un service
+            Map m2 = (Map) ((Map) o2).get("service");//service
+            Service s = new Service((String) m2.get("nom"));//nom du service
+            List l2 = (List) m2.get("etats"); //liste des états du service
             for (Object o3 : l2) {
-                Map m3 = (Map) ((Map) o3).get("etat");
+                Map m3 = (Map) ((Map) o3).get("etat");//etat
                 Etat e = new Etat((String) m3.get("nom"), Integer.parseInt((String) m3.get("nbJetons")));
                 s.ajouterEtat(e);
             }
-            List l3 = (List) m2.get("transitions");
+            List l3 = (List) m2.get("transitions");//liste des transitions du service
             for (Object o3 : l3) {
-                Map m3 = (Map) ((Map) o3).get("transition");
+                Map m3 = (Map) ((Map) o3).get("transition");//transition
                 Transition t = new Transition((String) m3.get("nom"));
-                List l4 = (List) m3.get("etatsEntrants");
+                List l4 = (List) m3.get("etatsEntrants");//liste des etats entrants de la transition
                 for (Object o4 : l4) {
-                    Map m4 = (Map) ((Map) o4).get("etatEntrant");
+                    Map m4 = (Map) ((Map) o4).get("etatEntrant");//etat entrant
                     t.ajouterEtatEntrant(s.getEtatParNom((String) m4.get("nom")));
                 }
-                List l5 = (List) m3.get("etatsSortants");
+                List l5 = (List) m3.get("etatsSortants");//liste des etats sortants de la transition
                 for (Object o4 : l5) {
-                    Map m4 = (Map) ((Map) o4).get("etatSortant");
+                    Map m4 = (Map) ((Map) o4).get("etatSortant");//etat sortant
                     t.ajouterEtatSortant(s.getEtatParNom((String) m4.get("nom")));
                 }
                 s.ajouterTransition(t);
             }
             ajouterService(s);
         }
-        List l2 = (List) m1.get("dependances"); //liste des services
+        List l2 = (List) m1.get("dependances"); //liste des dependances
         for (Object o2 : l2) {
             Map m2 = (Map)((Map) ((Map) o2).get("dependance")).get("serviceEtat");
             Service s1 = this.getServiceParNom((String) m2.get("nom"));
@@ -77,6 +80,7 @@ public class App {
             Transition t = s2.getTransitionParNom((String) m5.get("nom"));
             t.ajouterDependances(e);
         }
+        
     }
 
     /**
@@ -96,7 +100,7 @@ public class App {
      */
     public Service getServiceParNom(String nom) {
         for (Service s : services) {
-            if (s.getNom() == nom) {
+            if (s.getNom().equals(nom)) {
                 return s;
             }
         }
