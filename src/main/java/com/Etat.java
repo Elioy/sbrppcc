@@ -63,6 +63,36 @@ public class Etat {
         }
         return s;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Etat other = (Etat) obj;
+        if (this.nbJetons != other.nbJetons) {
+            return false;
+        }
+        if (this.valide != other.valide) {
+            return false;
+        }
+        if ((this.nom == null) ? (other.nom != null) : !this.nom.equals(other.nom)) {
+            return false;
+        }
+        return true;
+    }
     
     
     

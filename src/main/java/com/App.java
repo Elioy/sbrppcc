@@ -28,14 +28,12 @@ public class App {
     public App(String file) throws FileNotFoundException {
         this.services = new ArrayList<Service>();
         this.parser = new YamlReader(new FileReader(file));
-        for(Service s : this.services){
-            s.ajouterTransitionsAuxEtats();
-        }
     }
 
     /**
      * methode de parsing du fichier yaml
-     * @throws YamlException 
+     *
+     * @throws YamlException
      */
     public void parseYAML() throws YamlException {
         Object o1 = parser.read();
@@ -68,19 +66,23 @@ public class App {
             }
             ajouterService(s);
         }
-        List l2 = (List) m1.get("dependances"); //liste des dependances
-        for (Object o2 : l2) {
-            Map m2 = (Map)((Map) ((Map) o2).get("dependance")).get("serviceEtat");
-            Service s1 = this.getServiceParNom((String) m2.get("nom"));
-            Map m3 = (Map)((Map) ((Map) o2).get("dependance")).get("etat");
-            Etat e = s1.getEtatParNom((String) m3.get("nom"));
-            Map m4 = (Map)((Map) ((Map) o2).get("dependance")).get("serviceTransition");
-            Service s2 = this.getServiceParNom((String) m4.get("nom"));
-            Map m5 = (Map)((Map) ((Map) o2).get("dependance")).get("transition");
-            Transition t = s2.getTransitionParNom((String) m5.get("nom"));
-            t.ajouterDependances(e);
+        if (m1.get("dependances") != "") {
+            List l2 = (List) m1.get("dependances"); //liste des dependances
+            for (Object o2 : l2) {
+                Map m2 = (Map) ((Map) ((Map) o2).get("dependance")).get("serviceEtat");
+                Service s1 = this.getServiceParNom((String) m2.get("nom"));
+                Map m3 = (Map) ((Map) ((Map) o2).get("dependance")).get("etat");
+                Etat e = s1.getEtatParNom((String) m3.get("nom"));
+                Map m4 = (Map) ((Map) ((Map) o2).get("dependance")).get("serviceTransition");
+                Service s2 = this.getServiceParNom((String) m4.get("nom"));
+                Map m5 = (Map) ((Map) ((Map) o2).get("dependance")).get("transition");
+                Transition t = s2.getTransitionParNom((String) m5.get("nom"));
+                t.ajouterDependances(e);
+            }
         }
-        
+        for (Service s : this.services) {
+            s.ajouterTransitionsAuxEtats();
+        }
     }
 
     /**
@@ -114,6 +116,12 @@ public class App {
     public void ajouterTransitionsAuxEtats() {
         for (Service s : services) {
             s.ajouterTransitionsAuxEtats();
+        }
+    }
+
+    public void franchirTransitions() {
+        for (Service s : this.services) {
+            new Thread(s).run();
         }
     }
 

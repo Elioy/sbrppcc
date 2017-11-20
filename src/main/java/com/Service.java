@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author eliot
  */
-public class Service {
+public class Service implements Runnable{
 
     /**
      * le nom du service
@@ -105,25 +105,10 @@ public class Service {
     }
 
     /**
-     * franchit une transition, ainsi que les autres transitions qui peuvent
-     * être franchie en même temps
+     * franchit les transitions qui peuvent être franchies
      *
-     * @param t la transition à franchir
      * @see construireListeEtatsEntrantsEtSortants
      */
-    /*public void franchirTransition(Transition t) {
-        if (t.estFranchissable()) {
-            List<Etat> etatsEntrants = new ArrayList<Etat>();
-            List<Etat> etatsSortants = new ArrayList<Etat>();
-            construireListeEtatsEntrantsEtSortants(t, new ArrayList<Transition>(), etatsEntrants, etatsSortants);
-            for (Etat e : etatsEntrants) {
-                e.setNbJetons(e.getNbJetons() - 1);
-            }
-            for (Etat e : etatsSortants) {
-                e.setNbJetons(e.getNbJetons() + 1);
-            }
-        }
-    }*/
     public void franchirTransitions() {
         List<Etat> etatsEntrantsTrans = new ArrayList<Etat>();
         List<Etat> etatsSortantsTrans = new ArrayList<Etat>();
@@ -146,31 +131,11 @@ public class Service {
      * construit une liste d'etats entrants et d'etats sortants correspondants
      * aux etats entrants et sortant des transitions qui vont etre franchies
      *
-     * @param t la transition à franchir
-     * @param transitions les transitions qui vont être franchies simultanément
+     * @param transitionsAFranchir les transitions qui vont être franchies
+     * simultanément
      * @param etatsEntrants la liste d'etats entrants qui va être remplie
      * @param etatsSortants la liste d'états sortants qui va être remplie
      */
-    /*private void construireListeEtatsEntrantsEtSortants(Transition t, List<Transition> transitions, List<Etat> etatsEntrants, List<Etat> etatsSortants) {
-        transitions.add(t);
-        for (Etat e : t.getEtatsEntrants()) {
-            if (!etatsEntrants.contains(e)) {
-                etatsEntrants.add(e);
-            }
-        }
-        for (Etat e : t.getEtatsSortant()) {
-            etatsSortants.add(e);
-        }
-        List<Etat> etats = new ArrayList<Etat>();
-        etats.addAll(etatsEntrants);
-        for (Etat e : etats) {
-            for (Transition t1 : e.getTransitions()) {
-                if (!transitions.contains(t1) && t1.estFranchissable()) {
-                    construireListeEtatsEntrantsEtSortants(t1, transitions, etatsEntrants, etatsSortants);
-                }
-            }
-        }
-    }*/
     private void construireListeEtatEntrantsEtSortants(List<Transition> transitionsAFranchir, List<Etat> etatsEntrants, List<Etat> etatsSortants) {
         for (Transition t : transitionsAFranchir) {
             for (Etat e : t.getEtatsEntrants()) {
@@ -183,12 +148,35 @@ public class Service {
             }
         }
     }
+    
+    /**
+     * indique si le service est à l'étar final ou non
+     * @return true si le service est à l'état final, false sinon
+     */
+    public boolean estALEtatFinal(){
+        for(Etat e : this.etats){
+            if(e.getNbJetons() > 0 && !e.getTransitions().isEmpty()){
+                return false;
+            }
+        }
+        return true;
+    }
 
+    /**
+     * franchit les transitions tant que le service n'est pas à l'état final
+     */
+    public void run() {
+        while(!estALEtatFinal()){
+            this.franchirTransitions();
+        }
+    }
+    
     @Override
     public String toString() {
         String s = "####################\nnom : " + nom + "\n####################\netats :";
         for (Etat e : etats) {
             s += "\n" + e;
+            System.out.println(e.getTransitions());
         }
         /*s += "\nTransitions :";
         for (Transition t : transitions) {
@@ -197,6 +185,8 @@ public class Service {
         return s;
     }
 
+    
+    
     //getters & setters
     public String getNom() {
         return nom;
