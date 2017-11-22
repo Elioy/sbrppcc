@@ -188,8 +188,9 @@ public class Service implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println(this.getNom() + " transitions franchises");
+            //System.out.println(this.getNom() + " transitions franchises");
         }
+        System.out.println(this);
     }
 
     @Override

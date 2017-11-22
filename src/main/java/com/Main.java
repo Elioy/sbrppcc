@@ -27,7 +27,7 @@ public class Main {
         System.out.println(a1);
         System.out.println("##############################");
         try {
-            a1.franchirTransitions();
+            a1.franchirTransitions(); //pour chaque service, franchit les transitions possibles, tant que le service n'est pas à l'état final
         } catch (InterruptedException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
