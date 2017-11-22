@@ -129,11 +129,6 @@ public class App {
         }
     }
 
-    /**
-     * methode toString
-     *
-     * @return
-     */
     @Override
     public String toString() {
         String s = "";

@@ -26,7 +26,7 @@ public class Service implements Runnable {
     /**
      * les différents états du service
      */
-    private List<Etat> etats; //YamlBeans
+    private List<Etat> etats; 
 
     /**
      * les différentes transitions du service
@@ -117,7 +117,6 @@ public class Service implements Runnable {
     /**
      * franchit les transitions qui peuvent être franchies
      *
-     * @see construireListeEtatsEntrantsEtSortants
      */
     public void franchirTransitions() {
         List<Etat> etatsEntrantsTrans = new ArrayList<Etat>();

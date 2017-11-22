@@ -61,6 +61,10 @@ public class Etat {
         this.transitionsSuivantes.add(t);
     }
 
+    /**
+     * ajoute une transition précédente à l'état
+     * @param t la transition à ajouter
+     */
     public void ajouterTransitionPrecedentes(Transition t){
         this.transitionsPrecedentes.add(t);
     }
