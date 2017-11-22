@@ -119,9 +119,13 @@ public class App {
         }
     }
 
-    public void franchirTransitions() {
+    /**
+     * franchit les transitions des service de l'application tant qu'il ne sont
+     * pas tous à l'état final
+     */
+    public void franchirTransitions() throws InterruptedException {
         for (Service s : this.services) {
-            new Thread(s).run();
+            new Thread(s).start();
         }
     }
 

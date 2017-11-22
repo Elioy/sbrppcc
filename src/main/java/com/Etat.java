@@ -23,13 +23,18 @@ public class Etat {
      */
     private int nbJetons;
     
+    /**
+     * indique si l'etat est validé ou non
+     */
     private boolean valide;
     
     /**
-     * les transitions de l'etat
+     * les transitions suivantes de l'etat
      */
-    private List<Transition> transitions;
+    private List<Transition> transitionsPrecedentes;
 
+    private List<Transition> transitionsSuivantes;
+    
     /**
      * constructor
      * @param nom le nom de l'état
@@ -38,7 +43,8 @@ public class Etat {
     public Etat(String nom, int nbJetons) {
         this.nom = nom;
         this.nbJetons = nbJetons;
-        this.transitions = new ArrayList<Transition>();
+        this.transitionsPrecedentes = new ArrayList<Transition>();
+        this.transitionsSuivantes = new ArrayList<Transition>();
         if(this.nbJetons > 0){
             this.valide = true;
         }
@@ -48,53 +54,22 @@ public class Etat {
     }
 
     /**
-     * ajoute une transition à l'etat
+     * ajoute une transition suivante à l'etat
      * @param t la transition à ajouter
      */
-    public void ajouterTransition(Transition t){
-        this.transitions.add(t);
+    public void ajouterTransitionSuivantes(Transition t){
+        this.transitionsSuivantes.add(t);
     }
 
+    public void ajouterTransitionPrecedentes(Transition t){
+        this.transitionsPrecedentes.add(t);
+    }
+    
     @Override
     public String toString() {
-        String s = "nom : "+nom+"\nnbJetons : "+nbJetons+"\ntransitions :";
-        for(Transition t : transitions){
-            s+=t.getNom();
-        }
+        String s = "nom : "+nom+"\nnbJetons : "+nbJetons;
         return s;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Etat other = (Etat) obj;
-        if (this.nbJetons != other.nbJetons) {
-            return false;
-        }
-        if (this.valide != other.valide) {
-            return false;
-        }
-        if ((this.nom == null) ? (other.nom != null) : !this.nom.equals(other.nom)) {
-            return false;
-        }
-        return true;
-    }
-    
-    
     
     //getters & setters
     public String getNom() {
@@ -105,8 +80,8 @@ public class Etat {
         return nbJetons;
     }
 
-    public List<Transition> getTransitions() {
-        return transitions;
+    public List<Transition> getTransitionsSuivantes() {
+        return transitionsSuivantes;
     }
 
     public void setNom(String nom) {
@@ -120,8 +95,8 @@ public class Etat {
         }
     }
 
-    public void setTransitions(List<Transition> transitions) {
-        this.transitions = transitions;
+    public void setTransitionsSuivante(List<Transition> transitions) {
+        this.transitionsSuivantes = transitions;
     }
 
     public boolean isValide() {
@@ -131,6 +106,11 @@ public class Etat {
     public void setValide(boolean b) {
         this.valide = b;
     }
+
+    public List<Transition> getTransitionsPrecedentes() {
+        return transitionsPrecedentes;
+    }
+    
     
     
 }

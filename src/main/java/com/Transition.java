@@ -109,8 +109,34 @@ public class Transition {
         }
         return true;
     }
+    
+    
+    /**
+     * indique si la transition sera franchissable 
+     * @return true si la transition sera franchissable, false sinon
+     */
+    public boolean pourraEtreFranchie() {
+        if (this.estFranchissable()) {
+            return true;
+        } else {
+            for (Etat e : this.etatsEntrants) {
+                if (e.getNbJetons() == 0) {
+                    if (e.getTransitionsPrecedentes().isEmpty()) {
+                        for (Transition t : e.getTransitionsPrecedentes()) {
+                            if (!t.pourraEtreFranchie()) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
 
-    //getters & setters
+//getters & setters
     public String getNom() {
         return nom;
     }

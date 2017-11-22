@@ -5,15 +5,18 @@
  */
 package com;
 
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * un service d'une application
  *
  * @author eliot
  */
-public class Service implements Runnable{
+public class Service implements Runnable {
 
     /**
      * le nom du service
@@ -97,7 +100,14 @@ public class Service implements Runnable{
             for (Transition t : transitions) {
                 for (Etat e2 : t.getEtatsEntrants()) {
                     if (e.equals(e2)) {
-                        e.ajouterTransition(t);
+                        e.ajouterTransitionSuivantes(t);
+                    }
+                }
+            }
+            for (Transition t : transitions) {
+                for (Etat e2 : t.getEtatsSortant()) {
+                    if (e.equals(e2)) {
+                        e.ajouterTransitionPrecedentes(t);
                     }
                 }
             }
@@ -148,15 +158,20 @@ public class Service implements Runnable{
             }
         }
     }
-    
+
     /**
      * indique si le service est à l'étar final ou non
+     *
      * @return true si le service est à l'état final, false sinon
      */
-    public boolean estALEtatFinal(){
-        for(Etat e : this.etats){
-            if(e.getNbJetons() > 0 && !e.getTransitions().isEmpty()){
-                return false;
+    public boolean estALEtatFinal() {
+        for (Etat e : this.etats) {
+            if (e.getNbJetons() > 0 && !e.getTransitionsSuivantes().isEmpty()) {
+                for (Transition t : e.getTransitionsSuivantes()) {
+                    if (t.pourraEtreFranchie()) {
+                        return false;
+                    }
+                }
             }
         }
         return true;
@@ -166,17 +181,22 @@ public class Service implements Runnable{
      * franchit les transitions tant que le service n'est pas à l'état final
      */
     public void run() {
-        while(!estALEtatFinal()){
+        while (!estALEtatFinal()) {
             this.franchirTransitions();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println(this.getNom() + " transitions franchises");
         }
     }
-    
+
     @Override
     public String toString() {
         String s = "####################\nnom : " + nom + "\n####################\netats :";
         for (Etat e : etats) {
             s += "\n" + e;
-            System.out.println(e.getTransitions());
         }
         /*s += "\nTransitions :";
         for (Transition t : transitions) {
@@ -185,8 +205,6 @@ public class Service implements Runnable{
         return s;
     }
 
-    
-    
     //getters & setters
     public String getNom() {
         return nom;

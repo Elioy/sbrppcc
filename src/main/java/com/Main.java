@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +26,12 @@ public class Main {
         System.out.println("##############################");
         System.out.println(a1);
         System.out.println("##############################");
-        a1.franchirTransitions();
+        try {
+            a1.franchirTransitions();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         System.out.println(a1);
         System.out.println("##############################");
 

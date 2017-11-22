@@ -18,6 +18,9 @@ application :
                 - etat : &s1e5
                     nom : e5
                     nbJetons : 0
+                - etat : &s1e6
+                    nom : e6
+                    nbJetons : 0
             transitions :
                 - transition : &s1t1
                     nom : t1
@@ -25,24 +28,24 @@ application :
                         - etatEntrant : *s1e1
                     etatsSortants :
                         - etatSortant : *s1e2
+                        - etatSortant : *s1e3
                 - transition : &s1t2
                     nom : t2
                     etatsEntrants :
-                        - etatEntrant : *s1e1
+                        - etatEntrant : *s1e2
                     etatsSortants :
-                        - etatSortant : *s1e3
+                        - etatSortant : *s1e4
                 - transition : &s1t3
                     nom : t3
                     etatsEntrants :
-                        - etatEntrant : *s1e1
+                        - etatEntrant : *s1e3
                     etatsSortants :
-                        - etatSortant : *s1e4
+                        - etatSortant : *s1e5
                 - transition : &s1t4
                     nom : t4
                     etatsEntrants :
-                        - etatEntrant : *s1e2
-                        - etatEntrant : *s1e3
                         - etatEntrant : *s1e4
+                        - etatEntrant : *s1e3
                     etatsSortants :
-                        - etatSortant : *s1e5
+                        - etatSortant : *s1e6
     dependances :
