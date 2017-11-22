@@ -1,0 +1,158 @@
+application :
+    services :
+        - service: &s1
+            nom : service 1
+            etats :
+                - etat : &s1e1
+                    nom : e1
+                    nbJetons : 1
+                - etat : &s1e2
+                    nom : e2
+                    nbJetons : 0
+                - etat : &s1e3
+                    nom : e3
+                    nbJetons : 0
+                - etat : &s1e4
+                    nom : e4
+                    nbJetons : 0
+                - etat : &s1e5
+                    nom : e5
+                    nbJetons : 0
+            transitions :
+                - transition : &s1t1
+                    nom : t1
+                    etatsEntrants :
+                        - etatEntrant : *s1e1
+                    etatsSortants :
+                        - etatSortant : *s1e2
+                - transition : &s1t2
+                    nom : t2
+                    etatsEntrants :
+                        - etatEntrant : *s1e2
+                    etatsSortants :
+                        - etatSortant : *s1e3
+                - transition : &s1t3
+                    nom : t3
+                    etatsEntrants : 
+                        - etatEntrant : *s1e2
+                    etatsSortants:
+                        - etatSortant : *s1e4
+                - transition : &s1t4
+                    nom : t4
+                    etatsEntrants : 
+                        - etatEntrant : *s1e3
+                        - etatEntrant : *s1e4
+                    etatsSortants :
+                        - etatSortant : *s1e5
+        - service: &s2
+            nom : service 2
+            etats :
+                - etat : &s2e1
+                    nom : e1
+                    nbJetons : 1
+                - etat : &s2e2
+                    nom : e2
+                    nbJetons : 0
+                - etat : &s2e3
+                    nom : e3
+                    nbJetons : 0
+                - etat : &s2e4
+                    nom : e4
+                    nbJetons : 0
+                - etat : &s2e5
+                    nom : e5
+                    nbJetons : 0
+            transitions :
+                - transition : &s2t1 
+                    nom : t1
+                    etatsEntrants :
+                        - etatEntrant : *s2e1
+                    etatsSortants :
+                        - etatSortant : *s2e2
+                - transition : &s2t2 
+                    nom : t2
+                    etatsEntrants :
+                        - etatEntrant : *s2e2
+                    etatsSortants :
+                        - etatSortant : *s2e3
+                - transition : &s2t3 
+                    nom : t3
+                    etatsEntrants : 
+                        - etatEntrant : *s2e2 
+                    etatsSortants :
+                        - etatSortant : *s2e4
+                - transition : &s2t4 
+                    nom : t4
+                    etatsEntrants :
+                        - etatEntrant : *s2e4
+                    etatsSortants :
+                        - etatSortant : *s2e5
+        - service: &s3
+            nom : service 3
+            etats :
+                - etat : &s3e1
+                    nom : e1
+                    nbJetons : 1
+                - etat : &s3e2
+                    nom : e2
+                    nbJetons : 0
+                - etat : &s3e3
+                    nom : e3
+                    nbJetons : 0
+                - etat : &s3e4
+                    nom : e4
+                    nbJetons : 0
+                - etat : &s3e5
+                    nom : e5
+                    nbJetons : 0
+                - etat : &s3e6
+                    nom : e6
+                    nbJetons : 0    
+            transitions :
+                - transition : &s3t1 
+                    nom : t1
+                    etatsEntrants :
+                        - etatEntrant : *s3e1
+                    etatsSortants :
+                        - etatSortant : *s3e2
+                - transition : &s3t2 
+                    nom : t2
+                    etatsEntrants :
+                        - etatEntrant : *s3e2
+                    etatsSortants :
+                        - etatSortant : *s3e3
+                - transition : &s3t3 
+                    nom : t3
+                    etatsEntrants :
+                        - etatEntrant : *s3e2
+                    etatsSortants :
+                        - etatSortant : *s3e4
+                - transition : &s3t4
+                    nom : t4
+                    etatsEntrants :
+                        - etatEntrant : *s3e2
+                    etatsSortants :
+                        - etatSortant : *s3e5
+                - transition : &s3t5 
+                    nom : t5
+                    etatsEntrants :
+                        - etatEntrant : *s3e4
+                        - etatEntrant : *s3e5
+                    etatsSortants :
+                        - etatSortant : *s3e6
+    dependances :
+        - dependance : 
+            serviceEtat : *s1
+            etat : *s1e4
+            serviceTransition : *s2
+            transition : *s2t2 
+        - dependance : 
+            serviceEtat : *s2
+            etat : *s2e4
+            serviceTransition : *s3
+            transition : *s3t1
+        - dependance :
+            serviceEtat : *s2
+            etat : *s2e5
+            serviceTransition : *s3
+            transition : *s3t5
