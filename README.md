@@ -30,6 +30,9 @@ commenté à votre camarade de classe.
 ## Diagramme de Classe
 ![diagramme de classe](https://i.imgur.com/tGMwcSd.png)
 
+## Documentation
+La javadoc du projet est accessible [ici](https://elioy.github.io/sbrppcc/)
+
 ## Exemple de fichier d'entrée
 
 
@@ -192,5 +195,3 @@ commenté à votre camarade de classe.
                 serviceTransition : *s3
                 transition : *s3t5
 
-## Documentation
-La javadoc du projet est accessible [ici](https://elioy.github.io/sbrppcc/)
