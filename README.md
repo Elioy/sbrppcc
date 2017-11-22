@@ -28,6 +28,6 @@ commenté à votre camarade de classe.
 **Gestion des Dépendances :** [Maven](https://maven.apache.org/)
 
 ## Diagramme de Classe
-![diagramme de classe](https://imgur.com/a/5AQr5)
+![diagramme de classe](https://i.imgur.com/tGMwcSd.png)
 
 ## Documentation
